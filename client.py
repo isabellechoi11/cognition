@@ -499,7 +499,7 @@ class BoardWidget(QWidget):
         self.update_player_positions()
 
         # Re-enable the question button
-        self.question_button.setEnabled(True)
+        self.question_button.setEnabled(False)
 
         # Updated logic to consider final question
         player = self.game.active_player()
