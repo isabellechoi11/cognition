@@ -9,15 +9,56 @@ This is a simple Trivial Compute game application built with PyQt5.
 - GUI built with PyQt5.
 - Supports Python 3.11.0 
 
-## How to Install: 
-The Trivial Compute game is a standalone application that users can download and immediately begin running. 
+## Prerequisites
 
-## How to Run: 
-Once the application has been downloaded, clicking the Trivial Compute application will open the game to the main menu. 
+- Python 3.11.0
+- pip (Python package manager)
 
-- Play Game – Click this button to begin setting up and playing a new game 
-- How to Play – Click this button to open a pdf with instructions on how to play the Trivial Compute game 
-- Creator Mode – This will open an excel file where questions, answers, and categories can be added 
-    - Add new questions, answers, and categories in their respective categories on the excel sheet 
-    - NOTE: The application must be restarted after modifying the questions, answers, and/or categories to see the updates when playing a game 
-- Help – Click this button to open this pdf 
+## How to Install
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/isabellechoi11/cognition.git
+   cd cognition
+   ```
+
+2. Create and activate a virtual environment:
+   ```bash
+   python -m venv .venv
+   ```
+   - On macOS/Linux:
+     ```bash
+     source .venv/bin/activate
+     ```
+   - On Windows:
+     ```bash
+     .venv\Scripts\activate
+     ```
+
+3. Install the required dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+## How to Run
+
+Start the game by running:
+```bash
+python client.py
+```
+
+This will open the game to the main menu, where you can:
+
+- **Play Game** – Click this button to begin setting up and playing a new game
+- **How to Play** – Click this button to open a PDF with instructions on how to play the Trivial Compute game
+- **Creator Mode** – This will open an Excel file where questions, answers, and categories can be added
+    - Add new questions, answers, and categories in their respective columns on the Excel sheet
+    - NOTE: The application must be restarted after modifying the questions, answers, and/or categories to see the updates when playing a game
+- **Help** – Click this button to open the help PDF
+
+## Running Tests
+
+To run the server tests:
+```bash
+python test_server.py
+``` 
