@@ -9,6 +9,31 @@ This is a simple Trivial Compute game application built with PyQt5.
 - GUI built with PyQt5.
 - Supports Python 3.11.0 
 
+## Prerequisites
+
+- Python 3.11.0
+- pip
+
+## Manual Setup
+
+1. Clone the repository and navigate to the project root:
+   ```bash
+   git clone https://github.com/isabellechoi11/cognition.git
+   cd cognition
+   ```
+
+2. Install the required dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. Run the game:
+   ```bash
+   python client.py
+   ```
+
+> **Note:** The game must be run from the repository root directory, as asset paths (such as `images/` and `player_icons/`) are relative to it.
+
 ## How to Install: 
 The Trivial Compute game is a standalone application that users can download and immediately begin running. 
 
@@ -20,4 +45,4 @@ Once the application has been downloaded, clicking the Trivial Compute applicati
 - Creator Mode – This will open an excel file where questions, answers, and categories can be added 
     - Add new questions, answers, and categories in their respective categories on the excel sheet 
     - NOTE: The application must be restarted after modifying the questions, answers, and/or categories to see the updates when playing a game 
-- Help – Click this button to open this pdf 
+- Help – Click this button to open this pdf  
