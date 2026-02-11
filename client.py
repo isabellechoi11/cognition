@@ -308,8 +308,10 @@ class BoardWidget(QWidget):
         # Show the appropriate button based on the game state
         if self.game.state == State.ROLL:
             self.roll_button.setVisible(True)
+            self.roll_button.setEnabled(True)
         elif self.game.state == State.QUESTION:
             self.question_button.setVisible(True)
+            self.question_button.setEnabled(True)
         else:
             self.placeholder_button.setVisible(True)
 
@@ -495,11 +497,12 @@ class BoardWidget(QWidget):
     def handle_question_answer(self, correct):
         self.question_overlay.hide()
         verify = self.server.verify_question(correct)
-        self.current_player_label.setText(f'Current Player: {verify.active_player().name}')
+        self.game = verify
+        self.current_player_label.setText(f'Current Player: {self.game.active_player().name}')
         self.update_player_positions()
 
         # Re-enable the question button
-        self.question_button.setEnabled(False)
+        self.question_button.setEnabled(True)
 
         # Updated logic to consider final question
         player = self.game.active_player()
@@ -520,10 +523,12 @@ class BoardWidget(QWidget):
 
     def show_roll_button(self):
         self.question_button.hide()
+        self.roll_button.setEnabled(True)
         self.roll_button.show()
 
     def show_question_button(self):
         self.roll_button.hide()
+        self.question_button.setEnabled(True)
         self.question_button.show()
 
 
