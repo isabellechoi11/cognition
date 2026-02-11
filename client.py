@@ -300,15 +300,15 @@ class BoardWidget(QWidget):
         self.update_buttons()
 
     def update_buttons(self):
-        # Hide all buttons initially
         self.roll_button.setVisible(False)
         self.question_button.setVisible(False)
         self.placeholder_button.setVisible(False)
 
-        # Show the appropriate button based on the game state
         if self.game.state == State.ROLL:
+            self.roll_button.setEnabled(True)
             self.roll_button.setVisible(True)
         elif self.game.state == State.QUESTION:
+            self.question_button.setEnabled(True)
             self.question_button.setVisible(True)
         else:
             self.placeholder_button.setVisible(True)
@@ -494,12 +494,9 @@ class BoardWidget(QWidget):
     
     def handle_question_answer(self, correct):
         self.question_overlay.hide()
-        verify = self.server.verify_question(correct)
-        self.current_player_label.setText(f'Current Player: {verify.active_player().name}')
+        self.game = self.server.verify_question(correct)
+        self.current_player_label.setText(f'Current Player: {self.game.active_player().name}')
         self.update_player_positions()
-
-        # Re-enable the question button
-        self.question_button.setEnabled(False)
 
         # Updated logic to consider final question
         player = self.game.active_player()
@@ -512,19 +509,9 @@ class BoardWidget(QWidget):
             if correct:
                 self.update_player_score()
 
-        # Check if it's time to roll again or move on
-        if self.game.state == State.ROLL:
-            self.show_roll_button()
-        else:
-            self.show_question_button()
+        # Update buttons based on the new game state
+        self.update_buttons()
 
-    def show_roll_button(self):
-        self.question_button.hide()
-        self.roll_button.show()
-
-    def show_question_button(self):
-        self.roll_button.hide()
-        self.question_button.show()
 
 
     def show_winner_screen(self, winner_name):
