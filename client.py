@@ -300,16 +300,18 @@ class BoardWidget(QWidget):
         self.update_buttons()
 
     def update_buttons(self):
-        # Hide all buttons initially
         self.roll_button.setVisible(False)
+        self.roll_button.setEnabled(False)
         self.question_button.setVisible(False)
+        self.question_button.setEnabled(False)
         self.placeholder_button.setVisible(False)
 
-        # Show the appropriate button based on the game state
         if self.game.state == State.ROLL:
             self.roll_button.setVisible(True)
+            self.roll_button.setEnabled(True)
         elif self.game.state == State.QUESTION:
             self.question_button.setVisible(True)
+            self.question_button.setEnabled(True)
         else:
             self.placeholder_button.setVisible(True)
 
@@ -430,14 +432,14 @@ class BoardWidget(QWidget):
         roll_again_dialog.exec_()
 
     def get_question(self):
-        if not self.question_button.isEnabled():
-            return  # If the button is already disabled, do nothing
+        if self.game.state != State.QUESTION:
+            return
 
-        self.question_button.setEnabled(False)  # Disable the button immediately after it's clicked
+        self.question_button.setEnabled(False)
 
         question_obj: Question = self.server.get_question()
         if question_obj == -1:
-            self.question_button.setEnabled(True)  # Re-enable the button if no question is retrieved
+            self.update_buttons()
             return
 
         question = question_obj.question
@@ -494,29 +496,20 @@ class BoardWidget(QWidget):
     
     def handle_question_answer(self, correct):
         self.question_overlay.hide()
-        verify = self.server.verify_question(correct)
-        self.current_player_label.setText(f'Current Player: {verify.active_player().name}')
+        self.game = self.server.verify_question(correct)
+        self.current_player_label.setText(f'Current Player: {self.game.active_player().name}')
         self.update_player_positions()
 
-        # Re-enable the question button
-        self.question_button.setEnabled(False)
-
-        # Updated logic to consider final question
         player = self.game.active_player()
         player_score = self.server.get_score(player)
 
-        # Check if the player is at the center square with all categories and answered correctly
         if correct and player.location == 99 and len(player_score) == 4:
-            self.show_winner_screen(player.name)  # Show the winner screen
+            self.show_winner_screen(player.name)
         else:
             if correct:
                 self.update_player_score()
 
-        # Check if it's time to roll again or move on
-        if self.game.state == State.ROLL:
-            self.show_roll_button()
-        else:
-            self.show_question_button()
+        self.update_buttons()
 
     def show_roll_button(self):
         self.question_button.hide()
